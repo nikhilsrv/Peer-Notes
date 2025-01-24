@@ -22,6 +22,10 @@ app.use("/api/comments",commentRoutes);
 app.use("/api/admin",adminRoutes)
 
 
+app.get("/",(req,res)=>{
+    res.send("https://peer-notes-frontend.vercel.app/")
+})
+
 app.listen(PORT,(req,res)=>{ 
     console.log(`Server is running at ${PORT}`);
 })
