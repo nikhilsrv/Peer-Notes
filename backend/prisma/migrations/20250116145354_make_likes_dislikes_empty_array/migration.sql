@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Note" ALTER COLUMN "likes" SET DEFAULT '[]',
+ALTER COLUMN "dislikes" DROP NOT NULL,
+ALTER COLUMN "dislikes" SET DEFAULT '[]';

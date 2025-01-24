@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  userName  String    @unique
+  password  String
+  role      Role      @default(user)
+  gsign     Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  Note      Note[]
+  Comment   Comment[]
+}
+
+model Note {
+  id        Int       @id @default(autoincrement())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  subject   String
+  branch    String
+  files     Json
+  likes     Json @default("[]")
+  dislikes  Json? @default("[]")
+  status    Status @default(pending)
+  Comment   Comment[]
+  createdAt DateTime  @default(now())
+}
+
+model Comment {
+  id   BigInt @id @default(autoincrement())
+  user User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  note Note   @relation(fields: [notesId], references: [id], onDelete: Cascade)
+  value String
+  userId    Int
+  notesId   Int
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  user
+  admin
+}
+
+enum Status {
+  pending
+  approved
+  rejected
+}
